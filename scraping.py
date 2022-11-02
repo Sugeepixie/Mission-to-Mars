@@ -2,6 +2,7 @@
 
 
 # Import Splinter and BeautifulSoup
+from matplotlib.pyplot import title
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
@@ -13,14 +14,18 @@ def scrape_all():
  executable_path = {'executable_path': ChromeDriverManager().install()}
  browser = Browser('chrome', **executable_path, headless=False)
  news_title, news_paragraph = mars_news(browser)
+ hemisphere_image_urls = []
  # Run all scraping functions and store results in dictionary
  data = {
       "news_title": news_title,
       "news_paragraph": news_paragraph,
       "featured_image": featured_image(browser),
       "facts": mars_facts(),
+      "hemispheres": mars_hemispheres(browser),
       "last_modified": dt.datetime.now()
  }
+
+ 
 # Stop webdriver and return data
  browser.quit()
  return data
@@ -100,6 +105,25 @@ def mars_facts():
 
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html()
+
+def mars_hemispheres(browser):
+     
+     url = 'https://marshemispheres.com/'
+     browser.visit(url)
+     hemisphere_image_urls = []
+     for i in range (4):
+        hemispheres = {}
+        mars_hem_elem = browser.find_by_css('a.product-item h3')[i]
+        mars_hem_elem.click()
+        full_image_elem = browser.find_by_text('Sample')
+        image_url = full_image_elem['href']
+        title = browser.find_by_css('h2.title').text
+        hemispheres["image_url"] = image_url
+        hemispheres["h2.title"] = title
+        hemisphere_image_urls.append(hemispheres)
+        browser.back()
+    
+     return  hemisphere_image_urls
 
 
 
