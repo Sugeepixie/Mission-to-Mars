@@ -111,15 +111,19 @@ def mars_hemispheres(browser):
      url = 'https://marshemispheres.com/'
      browser.visit(url)
      hemisphere_image_urls = []
+     html = browser.html
+     img_soup = soup(html, 'html.parser')
      for i in range (4):
         hemispheres = {}
         mars_hem_elem = browser.find_by_css('a.product-item h3')[i]
         mars_hem_elem.click()
+        #img_url_rel = img_soup.find('img', class_='thumb').get('src')
+        #image_url = f'https://marshemispheres.com/{img_url_rel}'
         full_image_elem = browser.find_by_text('Sample')
         image_url = full_image_elem['href']
         title = browser.find_by_css('h2.title').text
         hemispheres["image_url"] = image_url
-        hemispheres["h2.title"] = title
+        hemispheres["title"] = title
         hemisphere_image_urls.append(hemispheres)
         browser.back()
     

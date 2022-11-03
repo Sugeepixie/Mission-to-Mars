@@ -272,7 +272,7 @@ for i in range (4):
     image_url = full_image_elem['href']
     title = browser.find_by_css('h2.title').text
     hemispheres["image_url"] = image_url
-    hemispheres["h2.title"] = title
+    hemispheres["title"] = title
     hemisphere_image_urls.append(hemispheres)
     browser.back()
       
