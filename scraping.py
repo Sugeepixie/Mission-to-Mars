@@ -117,8 +117,6 @@ def mars_hemispheres(browser):
         hemispheres = {}
         mars_hem_elem = browser.find_by_css('a.product-item h3')[i]
         mars_hem_elem.click()
-        #img_url_rel = img_soup.find('img', class_='thumb').get('src')
-        #image_url = f'https://marshemispheres.com/{img_url_rel}'
         full_image_elem = browser.find_by_text('Sample')
         image_url = full_image_elem['href']
         title = browser.find_by_css('h2.title').text
